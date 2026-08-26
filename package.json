@@ -1,0 +1,19 @@
+{
+  "name": "youtubeclone",
+  "version": "1.0.0",
+  "description": "Youtube Clone ",
+  "keywords": [
+    "Youtube",
+    "clone",
+    "Mern",
+    "Project",
+    "Learning"
+  ],
+  "license": "ISC",
+  "author": "Ibraheem",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
