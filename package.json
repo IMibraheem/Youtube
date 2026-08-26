@@ -2,7 +2,7 @@
   "name": "youtubeclone",
   "version": "1.0.0",
   "description": "Youtube Clone ",
-  "type": "module",
+  "type": "commonjs",
   "keywords": [
     "Youtube",
     "clone",
@@ -12,13 +12,13 @@
   ],
   "license": "ISC",
   "author": "Ibraheem",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "build": "node src/index.js"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "nodemon": "^3.1.14",
+    "prettier": "^3.9.6"
   }
 }
