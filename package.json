@@ -2,7 +2,7 @@
   "name": "youtubeclone",
   "version": "1.0.0",
   "description": "Youtube Clone ",
-  "type": "commonjs",
+  "type": "module",
   "keywords": [
     "Youtube",
     "clone",
@@ -14,11 +14,16 @@
   "author": "Ibraheem",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "build": "node src/index.js"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",
     "prettier": "^3.9.6"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongoose": "^9.9.4"
   }
 }
