@@ -27,7 +27,7 @@ const uploadOnCloude = async (localFilePath) => {
 
 
 const optimizedUrl = async (publicId , options ={})=>{
-cloudinary.url(publicId,{
+return cloudinary.url(publicId,{
 quality: 'auto',
 fetch_format : 'auto',
 ...options
