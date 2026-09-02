@@ -30,8 +30,9 @@ const registerUser = asyncHandler(async(req, res)=>{
     
     const avatarUploadResult = await uploadOnCloude(avatarLocalPath)
     const coverImageUploadResult = await uploadOnCloude(coverImageLocalPath)
+
     
-    if (avatarUploadResult) {
+    if (!avatarUploadResult) {
         throw new ApiError(400 , 'Avatar file is required')
     }
 
@@ -40,8 +41,8 @@ const registerUser = asyncHandler(async(req, res)=>{
         email,
         password,
         userName: userName?.toLowerCase(),
-        avatar: avatarLocalPath?.url, 
-        coverImage: coverImageLocalPath?.url || "", 
+        avatar: avatarUploadResult?.url, 
+        coverImage: coverImageUploadResult?.url || "", 
     })
 
     const checkIsUserCreated = await User.findById(createUserResult?._id).select("-password -refreshToken")
