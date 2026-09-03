@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken"
-import ApiError from "../utils/errorHandler"
-import { User } from "../models/user.model"
+import ApiError from "../utils/errorHandler.js"
+import { User } from "../models/user.model.js"
 
-const checkAuthentication = async (req, _, next) =>{
+const checkAuthentication = async (req, res , next) =>{
     try {
         const token = req.cookies?.accessToken || req.header('Authorization')?.replace("Bearer " ,"")
+
+        console.log(token , 'token')
     
         if (!token) {
             throw new ApiError(401 , 'Unathorized Request')
@@ -22,7 +24,8 @@ const checkAuthentication = async (req, _, next) =>{
         req.user = user
         next()
     } catch (error) {
-        throw new ApiError(500 , 'Something Went Wrong')
+         console.log("AUTH ERROR:", error);
+    throw error;
     }
 
     

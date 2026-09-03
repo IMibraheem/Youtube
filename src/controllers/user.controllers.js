@@ -8,8 +8,8 @@ import { option } from "../constants.js";
 const generateAccessAndRefreshToken = async (userId) => {
     try {
         const user = await User.findById(userId);
-        const accessToken = checkIfUserRegister.generateAccessToken();
-        const refreshToken = checkIfUserRegister.generateRefreshToken();
+        const accessToken = user.generateAccessToken();
+        const refreshToken = user.generateRefreshToken();
         user.refreshToken = refreshToken
        await user.save({validateBeforeSave: false})
         return {accessToken , refreshToken}
@@ -76,12 +76,12 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const loginUser = asyncHandler(async (req, res) => {
     const { userName, email, password } = req.body;
-    if (!(userName || email)) {
+    if (!(userName && email)) {
         throw new ApiError(400, " userName and email is required");
     }
 
     const checkIfUserRegister = await User.findOne({
-        $or: [{ userName }, { email }],
+        $and: [{ userName }, { email }],
     });
 
     if (!checkIfUserRegister) {
@@ -96,6 +96,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 
     const {accessToken , refreshToken} = await generateAccessAndRefreshToken(checkIfUserRegister?._id);
+
 
     
     const loggedInUser =await User.findById(checkIfUserRegister?._id)
@@ -117,15 +118,15 @@ const loginUser = asyncHandler(async (req, res) => {
 
 const logOutUser = asyncHandler(async (req, res)=>{
 const userId = req.user?._id
-await User.findByIdAndUpdate(userId , 
+  await User.findByIdAndUpdate(userId , 
      {$set :{refreshToken : ''}}
     ,{new: true}
 )
 
 res.status(200)
-.clearCookie("accessToken")
-.clearCookie("refreshToken")
-.json(new ApiRespons(200, _ , 'Logged Out SuccessFully'))
+.clearCookie("accessToken" , option)
+.clearCookie("refreshToken" , option)
+.json(new ApiRespons(200, {} , 'Logged Out SuccessFully'))
 
 
 })
