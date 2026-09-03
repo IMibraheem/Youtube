@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import ApiError from "../utils/errorHandler"
 import { User } from "../models/user.model"
 
-const checkAuthentication = async (req, res, next) =>{
+const checkAuthentication = async (req, _, next) =>{
     try {
         const token = req.cookies?.accessToken || req.header('Authorization')?.replace("Bearer " ,"")
     
@@ -20,9 +20,12 @@ const checkAuthentication = async (req, res, next) =>{
     
     
         req.user = user
+        next()
     } catch (error) {
         throw new ApiError(500 , 'Something Went Wrong')
     }
 
     
 }
+
+export {checkAuthentication}

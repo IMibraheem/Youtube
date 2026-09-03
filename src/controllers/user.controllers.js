@@ -98,7 +98,8 @@ const loginUser = asyncHandler(async (req, res) => {
     const {accessToken , refreshToken} = await generateAccessAndRefreshToken(checkIfUserRegister?._id);
 
     
-    const loggedInUser =await User.findById(checkIfUserRegister?._id).select("-password -refreshToken")
+    const loggedInUser =await User.findById(checkIfUserRegister?._id)
+    .select("-password -refreshToken")
 
     
     
@@ -115,6 +116,17 @@ const loginUser = asyncHandler(async (req, res) => {
 
 
 const logOutUser = asyncHandler(async (req, res)=>{
+const userId = req.user?._id
+await User.findByIdAndUpdate(userId , 
+     {$set :{refreshToken : ''}}
+    ,{new: true}
+)
+
+res.status(200)
+.clearCookie("accessToken")
+.clearCookie("refreshToken")
+.json(new ApiRespons(200, _ , 'Logged Out SuccessFully'))
+
 
 })
 
